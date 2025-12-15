@@ -6,7 +6,7 @@ import lombok.Data;
 public class Captcha {
 
     /**
-     * 随机字符串
+     * 标识当前请求验证码的唯一 id
      **/
     private String nonceStr;
     /**
@@ -14,7 +14,7 @@ public class Captcha {
      **/
     private String value;
     /**
-     * 生成的画布的base64
+     * 生成的画布的base64，作为背景图（已经被扣掉一块）
      **/
     private String canvasSrc;
     /**
@@ -26,7 +26,7 @@ public class Captcha {
      **/
     private Integer canvasHeight;
     /**
-     * 生成的阻塞块的base64
+     * 生成的阻塞块的base64，作为滑块的抠图
      **/
     private String blockSrc;
     /**
@@ -50,7 +50,12 @@ public class Captcha {
      **/
     private Integer blockY;
     /**
-     * 图片获取位置
+     * 图片获取位置，0 是网络图片，1 是本地图片，
+     * 这是扩展点，应该从 rustFS 随机选取图片
      **/
     private Integer place;
+
+    public Captcha(Integer place) {
+        this.place = place;
+    }
 }

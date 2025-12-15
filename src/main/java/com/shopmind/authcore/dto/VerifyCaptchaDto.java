@@ -10,5 +10,5 @@ import lombok.Data;
 @Data
 public class VerifyCaptchaDto {
     private String imageKey;
-    private String imageCode;
+    private String blockX;
 }

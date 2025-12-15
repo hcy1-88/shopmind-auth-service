@@ -19,12 +19,12 @@ public class CaptchaController {
     private CaptchaService captchaService;
 
     @PostMapping
-    public ResultContext<Object> getCaptcha(@RequestBody Captcha captcha) {
-        return ResultContext.success(captchaService.getCaptcha(captcha));
+    public ResultContext<Object> getCaptcha() {
+        return ResultContext.success(captchaService.getCaptcha(new Captcha(1)));
     }
 
     @PostMapping("/verify")
     public ResultContext<String> verifyCaptcha(@RequestBody VerifyCaptchaDto  verifyCaptchaDto) {
-        return captchaService.checkImageCode(verifyCaptchaDto.getImageKey(), verifyCaptchaDto.getImageCode());
+        return captchaService.checkImageCode(verifyCaptchaDto.getImageKey(), verifyCaptchaDto.getBlockX());
     }
 }

@@ -7,7 +7,7 @@ public interface CaptchaService {
     /**
      * 校验验证码
      **/
-    ResultContext<String> checkImageCode(String imageKey, String imageCode);
+    ResultContext<String> checkImageCode(String imageKey, String blockX);
 
 
     /**
