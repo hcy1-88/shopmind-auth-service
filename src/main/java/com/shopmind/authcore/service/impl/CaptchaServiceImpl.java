@@ -1,8 +1,8 @@
 package com.shopmind.authcore.service.impl;
 
 import com.shopmind.authcore.dto.Captcha;
-import com.shopmind.id.IdGenerator;
-import com.shopmind.context.ResultContext;
+import com.shopmind.framework.id.IdGenerator;
+import com.shopmind.framework.context.ResultContext;
 import com.shopmind.authcore.service.CaptchaService;
 import com.shopmind.authcore.utils.CaptchaUtils;
 import jakarta.annotation.Resource;

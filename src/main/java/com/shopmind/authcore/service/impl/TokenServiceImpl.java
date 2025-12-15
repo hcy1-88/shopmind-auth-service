@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.shopmind.util.JwtUtils.loadPrivateKeyFromBase64;
+import static com.shopmind.framework.util.JwtUtils.loadPrivateKeyFromBase64;
 
 /**
  * Token 生成服务

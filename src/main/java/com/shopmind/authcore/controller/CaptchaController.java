@@ -1,7 +1,8 @@
 package com.shopmind.authcore.controller;
 
 import com.shopmind.authcore.dto.Captcha;
-import com.shopmind.context.ResultContext;
+import com.shopmind.authcore.dto.VerifyCaptchaDto;
+import com.shopmind.framework.context.ResultContext;
 import com.shopmind.authcore.service.CaptchaService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +18,13 @@ public class CaptchaController {
     @Resource
     private CaptchaService captchaService;
 
-    @PostMapping("get-captcha")
+    @PostMapping
     public ResultContext<Object> getCaptcha(@RequestBody Captcha captcha) {
         return ResultContext.success(captchaService.getCaptcha(captcha));
+    }
+
+    @PostMapping("/verify")
+    public ResultContext<String> verifyCaptcha(@RequestBody VerifyCaptchaDto  verifyCaptchaDto) {
+        return captchaService.checkImageCode(verifyCaptchaDto.getImageKey(), verifyCaptchaDto.getImageCode());
     }
 }

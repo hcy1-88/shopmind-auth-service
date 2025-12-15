@@ -1,7 +1,7 @@
 package com.shopmind.authcore.service;
 
 import com.shopmind.authcore.dto.Captcha;
-import com.shopmind.context.ResultContext;
+import com.shopmind.framework.context.ResultContext;
 
 public interface CaptchaService {
     /**

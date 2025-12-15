@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.shopmind.util.JwtUtils.loadPublicKeyFromBase64;
+import static com.shopmind.framework.util.JwtUtils.loadPublicKeyFromBase64;
 
 /**
  * JWKS (JSON Web Key Set) 端点
