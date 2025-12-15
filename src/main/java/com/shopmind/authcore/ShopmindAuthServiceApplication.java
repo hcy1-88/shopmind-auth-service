@@ -1,4 +1,4 @@
-package com.shopmind;
+package com.shopmind.authcore;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

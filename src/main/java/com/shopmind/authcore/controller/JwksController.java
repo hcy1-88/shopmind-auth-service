@@ -1,4 +1,4 @@
-package com.shopmind.controller;
+package com.shopmind.authcore.controller;
 
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.jwk.RSAKey;

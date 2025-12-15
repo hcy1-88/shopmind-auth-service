@@ -1,14 +1,12 @@
-package com.shopmind.service.impl;
+package com.shopmind.authcore.service.impl;
 
-import com.shopmind.config.AuthProperties;
-import com.shopmind.dto.Users;
-import com.shopmind.service.TokenService;
+import com.shopmind.authcore.config.AuthProperties;
+import com.shopmind.authcore.dto.Users;
+import com.shopmind.authcore.service.TokenService;
 import io.jsonwebtoken.Jwts;
-import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 

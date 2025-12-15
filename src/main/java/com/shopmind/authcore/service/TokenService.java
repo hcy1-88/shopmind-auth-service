@@ -1,6 +1,6 @@
-package com.shopmind.service;
+package com.shopmind.authcore.service;
 
-import com.shopmind.dto.Users;
+import com.shopmind.authcore.dto.Users;
 
 public interface TokenService {
     String generateAccessToken(Users user);

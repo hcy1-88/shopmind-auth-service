@@ -1,4 +1,4 @@
-package com.shopmind.config;
+package com.shopmind.authcore.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

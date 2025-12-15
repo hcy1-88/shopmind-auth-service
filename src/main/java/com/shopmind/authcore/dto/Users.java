@@ -1,4 +1,4 @@
-package com.shopmind.dto;
+package com.shopmind.authcore.dto;
 
 import lombok.Data;
 
