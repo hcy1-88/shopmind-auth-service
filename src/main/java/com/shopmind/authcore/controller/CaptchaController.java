@@ -1,6 +1,6 @@
 package com.shopmind.authcore.controller;
 
-import com.shopmind.dto.Captcha;
+import com.shopmind.authcore.dto.Captcha;
 import com.shopmind.context.ResultContext;
 import com.shopmind.authcore.service.CaptchaService;
 import jakarta.annotation.Resource;
