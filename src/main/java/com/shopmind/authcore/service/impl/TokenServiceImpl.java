@@ -1,8 +1,11 @@
 package com.shopmind.authcore.service.impl;
 
-import com.shopmind.authcore.config.AuthProperties;
+import com.shopmind.authcore.exception.AuthServiceException;
+import com.shopmind.authcore.properties.AuthProperties;
 import com.shopmind.authcore.dto.Users;
+import com.shopmind.authcore.properties.SMSProperties;
 import com.shopmind.authcore.service.TokenService;
+import com.shopmind.framework.exception.ShopmindException;
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +30,9 @@ public class TokenServiceImpl implements TokenService {
 
     @Resource
     private AuthProperties authProperties;
+
+    @Resource
+    private SMSProperties smsProperties;
 
     /**
      * 私钥（用于签名 Token）
@@ -64,6 +70,27 @@ public class TokenServiceImpl implements TokenService {
         return generateAccessToken(user, authProperties.getTokenExpirationMs());
     }
 
+    @Override
+    public String generateVerificationCodeToken(String phoneNumber, String code) {
+        try {
+            Date now = new Date();
+            Date expiration = new Date(now.getTime() + smsProperties.getExpire() * 60 * 1000);
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("phoneNumber", phoneNumber);
+            claims.put("code", code);
+            return Jwts.builder()
+                    .subject(phoneNumber)
+                    .claims(claims)
+                    .issuedAt(now)
+                    .expiration(expiration)
+                    .signWith(privateKey)
+                    .compact();
+        } catch (Exception exception){
+            log.error("生成验证码令牌失败：{}", exception.getMessage(),  exception);
+            throw new ShopmindException("验证码令牌生成失败！", exception);
+        }
+    }
+
     /**
      * 为用户生成访问令牌（Access Token，带过期时间）
      *
@@ -99,7 +126,7 @@ public class TokenServiceImpl implements TokenService {
             return token;
         } catch (Exception e) {
             log.error("生成访问令牌失败", e);
-            throw new RuntimeException("生成访问令牌失败", e);
+            throw new AuthServiceException("AUTH0005", e);
         }
     }
 

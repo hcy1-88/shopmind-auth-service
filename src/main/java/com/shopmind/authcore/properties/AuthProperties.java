@@ -1,14 +1,14 @@
-package com.shopmind.authcore.config;
+package com.shopmind.authcore.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 /**
  * 认证服务配置属性
  */
 @Data
-@Component
 @ConfigurationProperties(prefix = "shopmind.auth")
 public class AuthProperties {
 
