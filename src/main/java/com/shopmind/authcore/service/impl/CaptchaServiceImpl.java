@@ -1,6 +1,7 @@
 package com.shopmind.authcore.service.impl;
 
 import com.shopmind.authcore.dto.Captcha;
+import com.shopmind.authcore.exception.AuthServiceException;
 import com.shopmind.framework.exception.ShopmindException;
 import com.shopmind.framework.id.IdGenerator;
 import com.shopmind.framework.context.ResultContext;
@@ -121,7 +122,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         try {
             List<FileObject> fileObjects = storageService.listFiles(CAPTCHA_CODE_PREFIX);
             if (fileObjects.isEmpty()) {
-                throw new ShopmindException("没有验证码图片，请联系管理员上传！");
+                throw new AuthServiceException("AUTH0001");
             }
             List<String> urls = fileObjects.stream().map(FileObject::getFileUrl).toList();
             url = urls.get(ThreadLocalRandom.current().nextInt(urls.size()));
@@ -129,7 +130,7 @@ public class CaptchaServiceImpl implements CaptchaService {
             return ImageIO.read(new URL(url).openStream());
         } catch (IOException e) {
             log.error("读取验证码图片失败: {}", url, e);
-            throw new ShopmindException("读取验证码图片时出错", e);
+            throw new AuthServiceException("AUTH0002");
         }
     }
 
