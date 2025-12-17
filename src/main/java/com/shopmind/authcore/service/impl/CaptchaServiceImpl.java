@@ -60,7 +60,7 @@ public class CaptchaServiceImpl implements CaptchaService {
      * 校验验证码
      **/
     @Override
-    public ResultContext<String> checkImageCode(String imageKey, String blockX) {
+    public ResultContext<Boolean> checkImageCode(String imageKey, String blockX) {
         RBucket<String> bucket = redissonClient.getBucket(IMAGE_CODE_PREFIX + imageKey);
         if(!bucket.isExists()) {
             return ResultContext.fail("验证码已失效!" );

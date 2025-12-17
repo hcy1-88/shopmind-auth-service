@@ -25,7 +25,7 @@ public class CaptchaController {
     }
 
     @PostMapping("/verify")
-    public ResultContext<String> verifyCaptcha(@RequestBody VerifyCaptchaDto  verifyCaptchaDto) {
+    public ResultContext<Boolean> verifyCaptcha(@RequestBody VerifyCaptchaDto  verifyCaptchaDto) {
         return captchaService.checkImageCode(verifyCaptchaDto.getImageKey(), verifyCaptchaDto.getBlockX());
     }
 }
