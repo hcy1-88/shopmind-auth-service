@@ -49,13 +49,5 @@ public class Captcha {
      * 阻塞块的纵轴坐标
      **/
     private Integer blockY;
-    /**
-     * 图片获取位置，0 是网络图片，1 是本地图片，
-     * 这是扩展点，应该从 rustFS 随机选取图片
-     **/
-    private Integer place;
 
-    public Captcha(Integer place) {
-        this.place = place;
-    }
 }

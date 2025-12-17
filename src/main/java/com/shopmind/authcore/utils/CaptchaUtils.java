@@ -17,17 +17,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
 public class CaptchaUtils {
-
-    /**
-     * 网络图片地址
-     **/
-    private final static String IMG_URL = "https://img9.doubanio.com/view/group_topic/l/public/p710148376.webp";
-
-    /**
-     * 本地图片地址
-     **/
-    private final static String IMG_PATH = "C:/Users/hcy18/Pictures/Saved Pictures/tree-6966126_1280.jpg";
-
     /**
      * 入参校验设置默认值
      **/
@@ -52,10 +41,6 @@ public class CaptchaUtils {
         if (captcha.getBlockRadius() == null) {
             captcha.setBlockRadius(9);
         }
-        //设置图片来源默认值
-        if (captcha.getPlace() == null) {
-            captcha.setPlace(0);
-        }
     }
 
     /**
@@ -66,28 +51,6 @@ public class CaptchaUtils {
         return random.nextInt(end - start + 1) + start;
     }
 
-    /**
-     * 获取验证码资源图
-     **/
-    public static BufferedImage getBufferedImage(Integer place) {
-        try {
-
-            //获取网络资源图片
-            if (0 == place) {
-                URL url = new URL(IMG_URL);
-                return ImageIO.read(url.openStream());
-            }
-            //获取本地图片
-            else {
-                File file = new File(IMG_PATH);
-                return ImageIO.read(file);
-            }
-        } catch (Exception e) {
-            log.error("获取拼图资源失败");
-            //异常处理
-            return null;
-        }
-    }
 
     /**
      * 调整图片大小

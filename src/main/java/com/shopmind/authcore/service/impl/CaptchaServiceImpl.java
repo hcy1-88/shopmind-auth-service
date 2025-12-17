@@ -1,16 +1,27 @@
 package com.shopmind.authcore.service.impl;
 
 import com.shopmind.authcore.dto.Captcha;
+import com.shopmind.framework.exception.ShopmindException;
 import com.shopmind.framework.id.IdGenerator;
 import com.shopmind.framework.context.ResultContext;
 import com.shopmind.authcore.service.CaptchaService;
 import com.shopmind.authcore.utils.CaptchaUtils;
+import com.shopmind.framework.model.FileObject;
+import com.shopmind.framework.service.StorageService;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import java.time.Duration;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 
 /**
@@ -18,6 +29,7 @@ import java.time.Duration;
  * Author: huangcy
  * Date: 2025-12-14
  */
+@Slf4j
 @Service
 public class CaptchaServiceImpl implements CaptchaService {
     /**
@@ -30,11 +42,19 @@ public class CaptchaServiceImpl implements CaptchaService {
      */
     private static final String IMAGE_CODE_PREFIX = "verifyImageCode:";
 
+    /**
+     * captcha 文件存储前缀
+     */
+    private static final String CAPTCHA_CODE_PREFIX = "captcha/";
+
     @Resource
     private RedissonClient redissonClient;
 
     @Resource
     private IdGenerator idGenerator;
+
+    @Resource
+    private StorageService storageService;
 
     /**
      * 校验验证码
@@ -74,7 +94,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         int blockHeight = captcha.getBlockHeight();
         int blockRadius = captcha.getBlockRadius();
         // 1，获取资源图
-        BufferedImage canvasImage = CaptchaUtils.getBufferedImage(captcha.getPlace());
+        BufferedImage canvasImage = getCaptchaImageRandom();
         // 调整原图到指定大小
         canvasImage = CaptchaUtils.imageResize(canvasImage, canvasWidth, canvasHeight);
         // 随机生成阻塞块坐标
@@ -94,4 +114,23 @@ public class CaptchaServiceImpl implements CaptchaService {
         captcha.setCanvasSrc(CaptchaUtils.toBase64(canvasImage, "png"));
         return captcha;
     }
+
+    @Override
+    public BufferedImage getCaptchaImageRandom() {
+        String url = "";
+        try {
+            List<FileObject> fileObjects = storageService.listFiles(CAPTCHA_CODE_PREFIX);
+            if (fileObjects.isEmpty()) {
+                throw new ShopmindException("没有验证码图片，请联系管理员上传！");
+            }
+            List<String> urls = fileObjects.stream().map(FileObject::getFileUrl).toList();
+            url = urls.get(ThreadLocalRandom.current().nextInt(urls.size()));
+            // 从URL读取图片
+            return ImageIO.read(new URL(url).openStream());
+        } catch (IOException e) {
+            log.error("读取验证码图片失败: {}", url, e);
+            throw new ShopmindException("读取验证码图片时出错", e);
+        }
+    }
+
 }
