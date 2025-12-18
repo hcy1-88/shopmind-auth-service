@@ -1,10 +1,12 @@
 package com.shopmind.authcore.service.impl;
 
+import com.shopmind.authcore.constant.AuthorizationConstant;
 import com.shopmind.authcore.exception.AuthServiceException;
 import com.shopmind.authcore.properties.AuthProperties;
 import com.shopmind.authcore.dto.response.UserResponseDto;
 import com.shopmind.authcore.properties.SMSProperties;
 import com.shopmind.authcore.service.TokenService;
+import com.shopmind.framework.constant.JwtConstants;
 import com.shopmind.framework.exception.ShopmindException;
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.Resource;
@@ -76,8 +78,8 @@ public class TokenServiceImpl implements TokenService {
             Date now = new Date();
             Date expiration = new Date(now.getTime() + smsProperties.getExpire() * 60 * 1000);
             Map<String, Object> claims = new HashMap<>();
-            claims.put("phoneNumber", phoneNumber);
-            claims.put("code", code);
+            claims.put(AuthorizationConstant.PHONE_NUMBER, phoneNumber);
+            claims.put(AuthorizationConstant.SMS_CODE, code);
             return Jwts.builder()
                     .subject(phoneNumber)
                     .claims(claims)
@@ -105,12 +107,8 @@ public class TokenServiceImpl implements TokenService {
 
             // 构建 JWT Claims
             Map<String, Object> claims = new HashMap<>();
-            claims.put("userId", user.getId());
-            claims.put("phone", user.getPhone());
-            claims.put("nickname", user.getNickname());
-            claims.put("avatar", user.getAvatar());
-            claims.put("gender", user.getGender());
-            claims.put("age", user.getAge());
+            claims.put(JwtConstants.JWT_USER_ID, user.getId());
+            claims.put(JwtConstants.JWT_PHONE_NUMBER, user.getPhoneNumber());
             claims.put("type", "access_token");
 
             // 生成 Token（使用私钥签名）

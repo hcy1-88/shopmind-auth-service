@@ -2,8 +2,6 @@ package com.shopmind.authcore.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 /**
  * 认证服务配置属性
@@ -28,9 +26,4 @@ public class AuthProperties {
      */
     private Long tokenExpirationMs = 7 * 24 * 60 * 60 * 1000L;
 
-    /**
-     * Refresh Token 过期时间（毫秒）
-     * 默认 30 天
-     */
-    private Long refreshTokenExpirationMs = 30 * 24 * 60 * 60 * 1000L;
 }

@@ -1,15 +1,16 @@
 package com.shopmind.authcore.controller;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
-import com.shopmind.authcore.dto.SmsCodeRequestDto;
+import com.shopmind.authcore.dto.request.SmsCodeRequestDto;
+import com.shopmind.authcore.dto.request.SmsLoginRequestDto;
+import com.shopmind.authcore.dto.response.LoginResponseDto;
+import com.shopmind.authcore.dto.response.UserResponseDto;
 import com.shopmind.authcore.exception.AuthServiceException;
 import com.shopmind.authcore.service.AuthorizationService;
+import com.shopmind.authcore.utils.TokenUtils;
 import com.shopmind.framework.context.ResultContext;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -34,9 +35,22 @@ public class AuthorizationController {
         return ResultContext.success(Map.of("token", token));
     }
 
-    // todo 短信验证码登录
-//    @PostMapping("/sms-login")
-//    public ResultContext<> smsLogin(){
-//
-//    }
+    @PostMapping("/sms-login")
+    public ResultContext<LoginResponseDto> smsLogin(@RequestBody SmsLoginRequestDto smsLoginRequestDto) {
+        if (StringUtils.isEmpty(smsLoginRequestDto.getToken())) {
+            throw new AuthServiceException("AUTH0007");
+        }
+        LoginResponseDto loginResponseDto = authorizationService.smsLoginAndRegister(
+                smsLoginRequestDto.getPhoneNumber(),
+                smsLoginRequestDto.getCode(),
+                smsLoginRequestDto.getToken());
+        return ResultContext.success(loginResponseDto);
+    }
+
+    @PostMapping("/me")
+    public ResultContext<UserResponseDto> me(@RequestHeader(value = "Authorization") String authHeader) {
+        String token = TokenUtils.extractTokenFromHeader(authHeader);
+        UserResponseDto meInfo = authorizationService.getMeInfo(token);
+        return ResultContext.success(meInfo);
+    }
 }

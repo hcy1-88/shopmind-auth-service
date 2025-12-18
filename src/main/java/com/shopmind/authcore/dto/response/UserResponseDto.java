@@ -17,7 +17,7 @@ public class UserResponseDto {
     /**
      * 手机号（可为空，微信登录用户可能没有手机号）
      */
-    private String phone;
+    private String phoneNumber;
 
     /**
      * 用户昵称

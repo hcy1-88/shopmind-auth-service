@@ -2,6 +2,8 @@ package com.shopmind.authcore.controller;
 
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.jwk.RSAKey;
+import com.shopmind.framework.provider.PublicKeyProvider;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +25,8 @@ public class JwksController {
     /**
      * JWT 公钥（从配置文件读取）
      */
-    @Value("${shopmind.auth.jwt-public-key:}")
-    private String jwtPublicKey;
+    @Resource
+    private PublicKeyProvider publicKeyProvider;
 
     /**
      * JWKS 端点（符合 RFC 7517 标准）
@@ -32,7 +34,7 @@ public class JwksController {
      */
     @GetMapping("/.well-known/jwks.json")
     public Map<String, Object> getJwks() throws Exception {
-        PublicKey pubKey = loadPublicKeyFromBase64(jwtPublicKey);
+        PublicKey pubKey = publicKeyProvider.getPublicKey();
 
         RSAKey jwk = new RSAKey.Builder((java.security.interfaces.RSAPublicKey) pubKey)
                 .keyID("demo-key-001")
