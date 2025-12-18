@@ -1,4 +1,4 @@
-package com.shopmind.authcore.dto;
+package com.shopmind.authcore.dto.request;
 
 import lombok.Data;
 

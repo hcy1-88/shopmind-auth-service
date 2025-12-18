@@ -1,8 +1,7 @@
 package com.shopmind.authcore.service.impl;
 
-import com.shopmind.authcore.dto.Captcha;
+import com.shopmind.authcore.dto.response.Captcha;
 import com.shopmind.authcore.exception.AuthServiceException;
-import com.shopmind.framework.exception.ShopmindException;
 import com.shopmind.framework.id.IdGenerator;
 import com.shopmind.framework.context.ResultContext;
 import com.shopmind.authcore.service.CaptchaService;
@@ -22,7 +21,6 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 
 /**

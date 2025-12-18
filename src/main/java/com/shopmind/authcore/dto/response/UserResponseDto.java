@@ -1,4 +1,4 @@
-package com.shopmind.authcore.dto;
+package com.shopmind.authcore.dto.response;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import java.util.Date;
  * 用户实体类
  */
 @Data
-public class Users {
+public class UserResponseDto {
     /**
      * 用户ID（分布式ID）
      */

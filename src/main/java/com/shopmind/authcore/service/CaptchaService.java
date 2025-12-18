@@ -1,6 +1,6 @@
 package com.shopmind.authcore.service;
 
-import com.shopmind.authcore.dto.Captcha;
+import com.shopmind.authcore.dto.response.Captcha;
 import com.shopmind.framework.context.ResultContext;
 
 import java.awt.image.BufferedImage;

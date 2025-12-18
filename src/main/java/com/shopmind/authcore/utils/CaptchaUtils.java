@@ -1,15 +1,13 @@
 package com.shopmind.authcore.utils;
 
-import com.shopmind.authcore.dto.Captcha;
+import com.shopmind.authcore.dto.response.Captcha;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.Random;

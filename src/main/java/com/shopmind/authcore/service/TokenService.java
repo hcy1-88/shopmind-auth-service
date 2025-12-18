@@ -1,6 +1,6 @@
 package com.shopmind.authcore.service;
 
-import com.shopmind.authcore.dto.Users;
+import com.shopmind.authcore.dto.response.UserResponseDto;
 
 public interface TokenService {
 
@@ -17,5 +17,5 @@ public interface TokenService {
      * @param user 用户信息
      * @return 访问令牌
      */
-    String generateAccessToken(Users user);
+    String generateAccessToken(UserResponseDto user);
 }

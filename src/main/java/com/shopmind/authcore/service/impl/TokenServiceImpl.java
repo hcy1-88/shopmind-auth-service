@@ -2,7 +2,7 @@ package com.shopmind.authcore.service.impl;
 
 import com.shopmind.authcore.exception.AuthServiceException;
 import com.shopmind.authcore.properties.AuthProperties;
-import com.shopmind.authcore.dto.Users;
+import com.shopmind.authcore.dto.response.UserResponseDto;
 import com.shopmind.authcore.properties.SMSProperties;
 import com.shopmind.authcore.service.TokenService;
 import com.shopmind.framework.exception.ShopmindException;
@@ -66,7 +66,7 @@ public class TokenServiceImpl implements TokenService {
      * @return JWT Token
      */
     @Override
-    public String generateAccessToken(Users user) {
+    public String generateAccessToken(UserResponseDto user) {
         return generateAccessToken(user, authProperties.getTokenExpirationMs());
     }
 
@@ -98,7 +98,7 @@ public class TokenServiceImpl implements TokenService {
      * @param expirationMs 过期时间（毫秒）
      * @return JWT Token
      */
-    public String generateAccessToken(Users user, long expirationMs) {
+    public String generateAccessToken(UserResponseDto user, long expirationMs) {
         try {
             Date now = new Date();
             Date expiration = new Date(now.getTime() + expirationMs);

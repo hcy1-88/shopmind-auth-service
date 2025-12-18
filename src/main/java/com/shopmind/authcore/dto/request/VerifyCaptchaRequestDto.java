@@ -1,4 +1,4 @@
-package com.shopmind.authcore.dto;
+package com.shopmind.authcore.dto.request;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import lombok.Data;
  * Date: 2025-12-15
  */
 @Data
-public class VerifyCaptchaDto {
+public class VerifyCaptchaRequestDto {
     private String imageKey;
     private String blockX;
 }

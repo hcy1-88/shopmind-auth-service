@@ -1,7 +1,7 @@
 package com.shopmind.authcore.controller;
 
-import com.shopmind.authcore.dto.Captcha;
-import com.shopmind.authcore.dto.VerifyCaptchaDto;
+import com.shopmind.authcore.dto.response.Captcha;
+import com.shopmind.authcore.dto.request.VerifyCaptchaRequestDto;
 import com.shopmind.framework.context.ResultContext;
 import com.shopmind.authcore.service.CaptchaService;
 import jakarta.annotation.Resource;
@@ -25,7 +25,7 @@ public class CaptchaController {
     }
 
     @PostMapping("/verify")
-    public ResultContext<Boolean> verifyCaptcha(@RequestBody VerifyCaptchaDto  verifyCaptchaDto) {
-        return captchaService.checkImageCode(verifyCaptchaDto.getImageKey(), verifyCaptchaDto.getBlockX());
+    public ResultContext<Boolean> verifyCaptcha(@RequestBody VerifyCaptchaRequestDto verifyCaptchaRequestDto) {
+        return captchaService.checkImageCode(verifyCaptchaRequestDto.getImageKey(), verifyCaptchaRequestDto.getBlockX());
     }
 }
