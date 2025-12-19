@@ -1,6 +1,8 @@
 package com.shopmind.authcore.controller;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
+import com.shopmind.authcore.dto.request.PasswordLoginDto;
+import com.shopmind.authcore.dto.request.SetPasswordRequest;
 import com.shopmind.authcore.dto.request.SmsCodeRequestDto;
 import com.shopmind.authcore.dto.request.SmsLoginRequestDto;
 import com.shopmind.authcore.dto.response.LoginResponseDto;
@@ -52,5 +54,21 @@ public class AuthorizationController {
         String token = TokenUtils.extractTokenFromHeader(authHeader);
         UserResponseDto meInfo = authorizationService.getMeInfo(token);
         return ResultContext.success(meInfo);
+    }
+    
+    @PostMapping("/login")
+    public ResultContext<LoginResponseDto> login(@RequestBody PasswordLoginDto passwordLoginDto){
+        return authorizationService.loginByPwd(passwordLoginDto.getPhoneNumber(), passwordLoginDto.getPassword());
+    }
+
+    @PostMapping("/set-password")
+    public ResultContext<?> setPassword(@RequestBody SetPasswordRequest request) {
+        authorizationService.setPasswordFirstTime(
+                request.getPhoneNumber(),
+                request.getCode(),
+                request.getToken(),
+                request.getPassword(),
+                request.getConfirmPassword());
+        return ResultContext.success();
     }
 }

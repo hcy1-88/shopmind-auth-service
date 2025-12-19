@@ -53,4 +53,9 @@ public class UserResponseDto {
      * 软删除时间
      */
     private Date deletedAt;
+
+    /**
+     * 单向 Hash 加密过的密码
+     */
+    private String passwordHash;
 }

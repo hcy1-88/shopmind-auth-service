@@ -7,5 +7,9 @@ package com.shopmind.authcore.constant;
  */
 public interface AuthorizationConstant {
     String PHONE_NUMBER = "phoneNumber";
+
     String SMS_CODE = "smsCode";
+
+    String NO_PASSWORD_SET = "NO_PASSWORD_SET";
+
 }

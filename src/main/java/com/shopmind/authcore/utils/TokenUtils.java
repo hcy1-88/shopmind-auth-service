@@ -1,5 +1,7 @@
 package com.shopmind.authcore.utils;
 
+import cn.hutool.core.util.StrUtil;
+import com.shopmind.authcore.constant.AuthorizationConstant;
 import com.shopmind.authcore.exception.AuthServiceException;
 import com.shopmind.framework.components.SpringContextHolder;
 import com.shopmind.framework.constant.JwtConstants;
@@ -44,5 +46,15 @@ public class TokenUtils {
             return null;
         }
         return authHeader.substring(JwtConstants.TOKEN_PREFIX.length()).trim();
+    }
+
+    /**
+     * 校验 短信验证码 token
+     */
+    public static boolean validateSMSToken(String phoneNumber, String smsCode, String smsToken) {
+        Claims claims = JwtUtils.parseToken(smsToken, SpringContextHolder.getBean(PublicKeyProvider.class).getPublicKey());
+        String phoneNumberDecoded = claims.get(AuthorizationConstant.PHONE_NUMBER, String.class);
+        String smsCodeDecoded = claims.get(AuthorizationConstant.SMS_CODE, String.class);
+        return StrUtil.equals(phoneNumber, phoneNumberDecoded) && StrUtil.equals(smsCodeDecoded, smsCode);
     }
 }
