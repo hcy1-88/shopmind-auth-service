@@ -60,13 +60,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         }
         LoginResponseDto res =  new LoginResponseDto();
         // 2，向 user-service 获取用户
-        ResultContext<UserResponseDto> userByPhone = userServiceClient.getUserByPhone(phoneNumber);
-        if (userByPhone.getData() == null){
+        UserResponseDto userByPhone = userServiceClient.getUserByPhone(phoneNumber);
+        if (userByPhone == null){
             // 3，不存在则创建用户
-            ResultContext<UserResponseDto> userCreated = userServiceClient.registerByPhone(phoneNumber);
-            res.setUser(userCreated.getData());
+            UserResponseDto userCreated = userServiceClient.registerByPhone(phoneNumber);
+            res.setUser(userCreated);
         } else {
-            res.setUser(userByPhone.getData());
+            res.setUser(userByPhone);
         }
         res.setToken(tokenService.generateAccessToken(res.getUser()));
         // 4，返回用户 和 access token
@@ -77,13 +77,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     public UserResponseDto getMeInfo(String token) {
         Claims claims = TokenUtils.parseLoginToken(token);
         Long userId = claims.get(JwtConstants.JWT_USER_ID, Long.class);
-        return userServiceClient.getUserByUserId(userId).getData();
+        return userServiceClient.getUserByUserId(userId);
     }
 
     @Override
     public ResultContext<LoginResponseDto> loginByPwd(String phoneNumber, String password) {
         // 1，根据手机号查用户
-        UserResponseDto userByPhone = userServiceClient.getUserByPhone(phoneNumber).getData();
+        UserResponseDto userByPhone = userServiceClient.getUserByPhone(phoneNumber);
         if (userByPhone == null){
             throw new AuthServiceException("AUTH0013");
         }
