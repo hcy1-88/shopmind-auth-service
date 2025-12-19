@@ -52,9 +52,17 @@ public class TokenUtils {
      * 校验 短信验证码 token
      */
     public static boolean validateSMSToken(String phoneNumber, String smsCode, String smsToken) {
-        Claims claims = JwtUtils.parseToken(smsToken, SpringContextHolder.getBean(PublicKeyProvider.class).getPublicKey());
-        String phoneNumberDecoded = claims.get(AuthorizationConstant.PHONE_NUMBER, String.class);
-        String smsCodeDecoded = claims.get(AuthorizationConstant.SMS_CODE, String.class);
-        return StrUtil.equals(phoneNumber, phoneNumberDecoded) && StrUtil.equals(smsCodeDecoded, smsCode);
+        try {
+            Claims claims = JwtUtils.parseToken(smsToken, SpringContextHolder.getBean(PublicKeyProvider.class).getPublicKey());
+            String phoneNumberDecoded = claims.get(AuthorizationConstant.PHONE_NUMBER, String.class);
+            String smsCodeDecoded = claims.get(AuthorizationConstant.SMS_CODE, String.class);
+            return StrUtil.equals(phoneNumber, phoneNumberDecoded) && StrUtil.equals(smsCodeDecoded, smsCode);
+        } catch (ExpiredJwtException e) {
+            throw new AuthServiceException("AUTH0018");
+        } catch (MalformedJwtException e) {
+            throw new AuthServiceException("AUTH0010");
+        } catch (Exception e) {
+            throw new AuthServiceException("AUTH0011");
+        }
     }
 }

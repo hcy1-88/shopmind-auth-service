@@ -25,7 +25,7 @@ public interface UserServiceClient {
      * @return 用户
      */
     @GetExchange("/by-phone/{phoneNumber}")
-    UserResponseDto getUserByPhone(@PathVariable("phoneNumber") String phoneNumber);
+    ResultContext<UserResponseDto> getUserByPhone(@PathVariable("phoneNumber") String phoneNumber);
 
     /**
      * 注册新用户（手机号）
@@ -33,7 +33,7 @@ public interface UserServiceClient {
      * @return 用户
      */
     @PostExchange("/register-by-phone")
-    UserResponseDto registerByPhone(@RequestParam String phoneNumber);
+    ResultContext<UserResponseDto> registerByPhone(@RequestParam String phoneNumber);
 
     /**
      * 根据 id 查询用户
@@ -41,17 +41,17 @@ public interface UserServiceClient {
      * @return 用户
      */
     @GetExchange("/{userId}")
-    UserResponseDto getUserByUserId(@PathVariable("userId") Long userId);
+    ResultContext<UserResponseDto> getUserByUserId(@PathVariable("userId") Long userId);
 
     /**
      * 重置密码（已登录后改密码的场景）
      */
     @PostExchange("/password")
-    void updatePassword(@RequestBody ResetPasswordRequest request);
+    ResultContext<Void> updatePassword(@RequestBody ResetPasswordRequest request);
 
     /**
      * 手机号设置密码（初次登录的场景）
      */
     @PostExchange("/password/{phoneNumber}")
-    void setPasswordByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber, @RequestBody ResetPasswordRequest request);
+    ResultContext<Void> setPasswordByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber, @RequestBody ResetPasswordRequest request);
 }

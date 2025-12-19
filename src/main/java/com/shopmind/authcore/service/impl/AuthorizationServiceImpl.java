@@ -60,10 +60,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         }
         LoginResponseDto res =  new LoginResponseDto();
         // 2，向 user-service 获取用户
-        UserResponseDto userByPhone = userServiceClient.getUserByPhone(phoneNumber);
+        UserResponseDto userByPhone = userServiceClient.getUserByPhone(phoneNumber).getData();
         if (userByPhone == null){
             // 3，不存在则创建用户
-            UserResponseDto userCreated = userServiceClient.registerByPhone(phoneNumber);
+            UserResponseDto userCreated = userServiceClient.registerByPhone(phoneNumber).getData();
             res.setUser(userCreated);
         } else {
             res.setUser(userByPhone);
@@ -77,13 +77,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     public UserResponseDto getMeInfo(String token) {
         Claims claims = TokenUtils.parseLoginToken(token);
         Long userId = claims.get(JwtConstants.JWT_USER_ID, Long.class);
-        return userServiceClient.getUserByUserId(userId);
+        return userServiceClient.getUserByUserId(userId).getData();
     }
 
     @Override
     public ResultContext<LoginResponseDto> loginByPwd(String phoneNumber, String password) {
         // 1，根据手机号查用户
-        UserResponseDto userByPhone = userServiceClient.getUserByPhone(phoneNumber);
+        UserResponseDto userByPhone = userServiceClient.getUserByPhone(phoneNumber).getData();
         if (userByPhone == null){
             throw new AuthServiceException("AUTH0013");
         }
@@ -104,7 +104,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     public void setPasswordFirstTime(String phoneNumber, String smsCode, String smsToken, String password, String confirmPassword) {
-        if (!TokenUtils.validateSMSToken(phoneNumber, smsToken, smsToken)) {
+        boolean valid = TokenUtils.validateSMSToken(phoneNumber, smsCode, smsToken);
+        if (!valid) {
             throw new AuthServiceException("AUTH0008");
         }
         userServiceClient.setPasswordByPhoneNumber(phoneNumber, new ResetPasswordRequest(PasswordUtil.encode(password)));
