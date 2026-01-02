@@ -1,5 +1,6 @@
 package com.shopmind.authcore.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ public class UserResponseDto {
     /**
      * 用户ID（分布式ID）
      */
+    @JsonFormat(shape =  JsonFormat.Shape.STRING)
     private Long id;
 
     /**
