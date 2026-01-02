@@ -6,11 +6,13 @@ import com.shopmind.authcore.constant.AuthorizationConstant;
 import com.shopmind.authcore.dto.request.ResetPasswordRequest;
 import com.shopmind.authcore.dto.response.LoginResponseDto;
 import com.shopmind.authcore.dto.response.UserResponseDto;
+import com.shopmind.authcore.enums.SMSTemplateEnum;
 import com.shopmind.authcore.exception.AuthServiceException;
 import com.shopmind.authcore.service.AuthorizationService;
 import com.shopmind.authcore.service.SMSService;
 import com.shopmind.authcore.service.TokenService;
 import com.shopmind.authcore.utils.PasswordUtil;
+import com.shopmind.authcore.utils.SMSUtil;
 import com.shopmind.authcore.utils.TokenUtils;
 import com.shopmind.framework.constant.JwtConstants;
 import com.shopmind.framework.context.ResultContext;
@@ -45,10 +47,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     public String sendShorMsgForLoginOrRegister(String phoneNumber) {
-        // todo 开发阶段先固定验证码，不发短信
-//        String code = SMSUtil.generateSMSCode();
-        String code ="123456";
-//        smsService.sendShortMessage(phoneNumber, code, SMSTemplateEnum.LOGIN_REGISTER);
+        String code = SMSUtil.generateSMSCode();
+        smsService.sendShortMessage(phoneNumber, code, SMSTemplateEnum.LOGIN_REGISTER);
         return tokenService.generateVerificationCodeToken(phoneNumber, code);
     }
 
