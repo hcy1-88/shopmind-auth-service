@@ -11,14 +11,6 @@ ARG MAVEN_REPO_PASSWORD
 RUN mkdir -p /root/.m2 && \
     cat > /root/.m2/settings.xml <<EOF
 <settings>
-  <mirrors>
-    <mirror>
-      <id>aliyun-public</id>
-      <mirrorOf>central,jcenter,!shopmind-maven</mirrorOf>
-      <name>阿里云公共仓库</name>
-      <url>https://maven.aliyun.com/repository/public</url>
-    </mirror>
-  </mirrors>
   <servers>
     <server>
       <id>shopmind-maven</id>
