@@ -48,6 +48,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     @Override
     public String sendShorMsgForLoginOrRegister(String phoneNumber) {
         String code = SMSUtil.generateSMSCode();
+        log.info("手机号：{} , 验证码：{}, ", phoneNumber, code);
         smsService.sendShortMessage(phoneNumber, code, SMSTemplateEnum.LOGIN_REGISTER);
         return tokenService.generateVerificationCodeToken(phoneNumber, code);
     }
